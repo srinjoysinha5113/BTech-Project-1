@@ -1,0 +1,27 @@
+To run the project on your localhost, you need to have two separate terminals open—one for the Backend and one for the
+  Frontend. 
+
+  1. Run the Backend (FastAPI)
+  Open a terminal in the backend folder and run:
+
+cd backend
+
+venv\Scripts\python.exe -m uvicorn app.main:app --reload
+
+  The backend will be live at http://127.0.0.1:8000.
+
+  2. Run the Frontend (React + Vite)
+  Open a new terminal in the frontend folder and run:
+   1 cd frontend
+   2 npm run dev
+  The frontend will be live at http://localhost:5173.
+
+  ---
+
+  Important Prerequisites:
+   1. MySQL Server: Ensure your MySQL server is running on your machine.
+   2. Environment: Ensure you are using the virtual environment (venv) for the backend as shown above.
+   3. Browser: Open http://localhost:5173 (http://localhost:5173) in your browser to see the app.
+
+  Note: I actually started both of these for you in the background in my previous turn, so if you visit the links above right
+  now, they should already be working!
