@@ -1,4 +1,4 @@
-# MySQL Setup Instructions
+﻿# MySQL Setup Instructions
 
 ## Prerequisites
 
@@ -31,19 +31,33 @@ FLUSH PRIVILEGES;
 
 ## Update Configuration
 
-Update the `.env` file with your MySQL credentials:
+Update the `.env` file with your MySQL credentials. 
+
+**Note:** If your password contains special characters like `@`, you must URL-encode them (e.g., `@` becomes `%40`).
 
 ```env
-DATABASE_URL=mysql+pymysql://root:your_password@localhost:3306/post_quantum_db
+DATABASE_URL=mysql+pymysql://root:YOUR_ENCODED_PASSWORD@localhost:3306/post_quantum_db
 ```
 
 ## Run Migrations
 
-Once MySQL is set up and configured, run the migrations:
+Once MySQL is set up and configured, run the migrations from the `backend` directory:
 
 ```bash
+# Ensure you are in the backend directory
 cd backend
+
+# Run migrations
 venv\Scripts\python.exe -m alembic upgrade head
+```
+
+## Troubleshooting: Special Characters in Password
+
+If you encounter a `ValueError: invalid interpolation syntax` when running migrations, ensure that the `%` characters in your URL-encoded password are escaped as `%%` in the `alembic/env.py` file. The project is already configured to handle this automatically:
+
+```python
+# In alembic/env.py
+config.set_main_option("sqlalchemy.url", settings.DATABASE_URL.replace("%", "%%"))
 ```
 
 ## Verify Connection
@@ -51,9 +65,9 @@ venv\Scripts\python.exe -m alembic upgrade head
 Start the backend server and test the health endpoint:
 
 ```bash
-venv\Scripts\python.exe -m uvicorn app.main:app --host 0.0.0.0 --port 8000
+venv\Scripts\python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
 
-Then visit: http://localhost:8000/api/v1/health
+Then visit: [http://127.0.0.1:8000/api/v1/health](http://127.0.0.1:8000/api/v1/health)
 
-The database status should show "connected".
+The database status should show `"connected"`.
